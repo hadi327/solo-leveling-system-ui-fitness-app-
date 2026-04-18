@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow Fitness - Solo Leveling Inspired Workout Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        
+        .rank-progress {
+            height: 8px;
+            background: linear-gradient(90deg, #4f46e5 0%, #9333ea 100%);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .shadow-monarch {
+            text-shadow: 0 0 10px rgba(139, 92, 246, 0.7);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+        }
+        
+        .job-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            margin-right: 15px;
+        }
+        
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.5s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        
+        .blink {
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="gradient-bg border-b border-gray-800 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center mr-3">
+                    <i class="fas fa-dumbbell text-white"></i>
+                </div>
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">Shadow Fitness</h1>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="text-gray-300 hover:text-white transition">Dashboard</a>
+                <a href="#" class="text-gray-300 hover:text-white transition">Rankings</a>
+                <a href="#" class="text-gray-300 hover:text-white transition">Quests</a>
+                <a href="#" class="text-gray-300 hover:text-white transition">Shop</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <i class="fas fa-bell text-gray-400 hover:text-white cursor-pointer"></i>
+                    <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center">3</span>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center cursor-pointer">
+                    <i class="fas fa-user text-white text-sm"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Player Profile Section -->
+            <div class="lg:col-span-1">
+                <div class="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
+                    <div class="flex flex-col items-center">
+                        <div class="relative mb-6">
+                            <div class="w-24 h-24 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center">
+                                <i class="fas fa-crown text-yellow-400 text-3xl"></i>
+                            </div>
+                            <div class="absolute -bottom-2 -right-2 bg-yellow-500 text-xs font-bold px-2 py-1 rounded-full">S</div>
+                        </div>
+                        <h2 class="text-xl font-bold mb-1">Sung Jin-Woo</h2>
+                        <div class="text-sm text-gray-400 mb-4">Hunter ID: #SL001</div>
+                        
+                        <div class="w-full mb-6">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Rank Progress</span>
+                                <span>12,450/50,000</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div class="rank-progress h-2 rounded-full" style="width: 25%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 w-full mb-6">
+                            <div class="bg-gray-700 rounded-lg p-3 text-center">
+                                <div class="text-sm text-gray-400">Level</div>
+                                <div class="text-xl font-bold">78</div>
+                            </div>
+                            <div class="bg-gray-700 rounded-lg p-3 text-center">
+                                <div class="text-sm text-gray-400">Calories</div>
+                                <div class="text-xl font-bold">12,450</div>
+                            </div>
+                        </div>
+                        
+                        <div class="w-full mb-6">
+                            <h3 class="text-md font-semibold mb-3">Current Job Class</h3>
+                            <div class="flex items-center bg-gray-700 rounded-lg p-4">
+                                <div class="job-icon bg-gradient-to-r from-purple-500 to-indigo-500">
+                                    <i class="fas fa-skull text-white text-2xl"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold">Shadow Monarch</div>
+                                    <div class="text-sm text-gray-400">Unlocked at 50,000 calories</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="w-full">
+                            <h3 class="text-md font-semibold mb-3">Available Jobs</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center bg-gray-700 rounded-lg p-3 opacity-50">
+                                    <div class="job-icon bg-gradient-to-r from-red-500 to-orange-500">
+                                        <i class="fas fa-fire text-white text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold">Mage</div>
+                                        <div class="text-xs text-gray-400">Yoga/Pilates specialist</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center bg-gray-700 rounded-lg p-3 opacity-50">
+                                    <div class="job-icon bg-gradient-to-r from-green-500 to-teal-500">
+                                        <i class="fas fa-shield-alt text-white text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold">Tank</div>
+                                        <div class="text-xs text-gray-400">Strength training</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center bg-gray-700 rounded-lg p-3">
+                                    <div class="job-icon bg-gradient-to-r from-blue-500 to-cyan-500">
+                                        <i class="fas fa-running text-white text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold">Assassin</div>
+                                        <div class="text-xs text-gray-400">Cardio specialist</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content Section -->
+            <div class="lg:col-span-2">
+                <div class="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700 mb-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold">Daily Quest</h2>
+                        <div class="text-sm bg-purple-900 text-purple-200 px-3 py-1 rounded-full">New</div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-gray-700 rounded-lg p-4 text-center card-hover transition cursor-pointer">
+                            <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-walking text-white text-xl"></i>
+                            </div>
+                            <h3 class="font-semibold mb-1">10,000 Steps</h3>
+                            <p class="text-sm text-gray-400">300 calories</p>
+                            <button class="mt-3 bg-purple-600 hover:bg-purple-700 text-white text-sm px-4 py-1 rounded-full transition">Start</button>
+                        </div>
+                        <div class="bg-gray-700 rounded-lg p-4 text-center card-hover transition cursor-pointer">
+                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-dumbbell text-white text-xl"></i>
+                            </div>
+                            <h3 class="font-semibold mb-1">Strength Training</h3>
+                            <p class="text-sm text-gray-400">400 calories</p>
+                            <button class="mt-3 bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-1 rounded-full transition">Start</button>
+                        </div>
+                        <div class="bg-gray-700 rounded-lg p-4 text-center card-hover transition cursor-pointer">
+                            <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-heartbeat text-white text-xl"></i>
+                            </div>
+                            <h3 class="font-semibold mb-1">HIIT Challenge</h3>
+                            <p class="text-sm text-gray-400">500 calories</p>
+                            <button class="mt-3 bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-1 rounded-full transition">Start</button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold">Activity Log</h2>
+                        <button class="text-sm text-purple-400 hover:text-purple-300 transition">View All</button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between bg-gray-700 rounded-lg p-4">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fas fa-running text-white"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium">Morning Run</div>
+                                    <div class="text-xs text-gray-400">Today, 7:30 AM</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-bold text-purple-400">+350</div>
+                                <div class="text-xs text-gray-400">calories</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between bg-gray-700 rounded-lg p-4">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fas fa-dumbbell text-white"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium">Weight Training</div>
+                                    <div class="text-xs text-gray-400">Yesterday, 6:15 PM</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-bold text-blue-400">+420</div>
+                                <div class="text-xs text-gray-400">calories</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between bg-gray-700 rounded-lg p-4">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fas fa-biking text-white"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium">Cycling</div>
+                                    <div class="text-xs text-gray-400">Yesterday, 4:30 PM</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-bold text-green-400">+280</div>
+                                <div class="text-xs text-gray-400">calories</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold">Hunter Rankings</h2>
+                        <div class="flex space-x-2">
+                            <button class="text-sm bg-gray-700 text-gray-300 px-3 py-1 rounded-full">Global</button>
+                            <button class="text-sm bg-purple-600 text-white px-3 py-1 rounded-full">Friends</button>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-left text-gray-400 border-b border-gray-700">
+                                    <th class="pb-3 pl-2">Rank</th>
+                                    <th class="pb-3">Hunter</th>
+                                    <th class="pb-3">Job Class</th>
+                                    <th class="pb-3">Level</th>
+                                    <th class="pb-3 pr-2 text-right">Calories</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-700 hover:bg-gray-700/50 transition cursor-pointer">
+                                    <td class="py-4 pl-2">
+                                        <div class="w-8 h-8 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center text-sm font-bold">1</div>
+                                    </td>
+                                    <td class="py-4">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 rounded-full bg-purple-600 mr-3 flex items-center justify-center">
+                                                <i class="fas fa-crown text-white text-xs"></i>
+                                            </div>
+                                            <div>
+                                                <div class="font-medium">Sung Jin-Woo</div>
+                                                <div class="text-xs text-gray-400">Shadow Monarch</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4">
+                                        <span class="px-2 py-1 bg-purple-900/50 text-purple-300 rounded-full text-xs">Shadow Monarch</span>
+                                    </td>
+                                    <td class="py-4">
+                                        <div class="flex items-center">
+                                            <div class="w-16 bg-gray-700 rounded-full h-2 mr-2">
+                                                <div class="bg-gradient-to-r from-purple-500 to-blue-500 h-2 rounded-full" style="width: 78%"></div>
+                                            </div>
+                                            <span class="text-sm">78</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 pr-2 text-right font-bold text-purple-400">12,450</td>
+                                </tr>
+                                <tr class="border-b border-gray-700 hover:bg-gray-700/50 transition cursor-pointer">
+                                    <td class="py-4 pl-2">
+                                        <div class="w-8 h-8 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full flex items-center justify-center text-sm font-bold">2</div>
+                                    </td>
+                                    <td class="py-4">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 rounded-full bg-blue-600 mr-3 flex items-center justify-center">
+                                                <i class="fas fa-shield-alt text-white text-xs"></i>
+                                            </div>
+                                            <div>
+                                                <div class="font-medium">Cha Hae-In</div>
+                                                <div class="text-xs text-gray-400">S-Rank Tank</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4">
+                                        <span class="px-2 py-1 bg-blue-900/50 text-blue-300 rounded-full text-xs">Tank</span>
+                                    </td>
+                                    <td class="py-4">
+                                        <div class="flex items-center">
+                                            <div class="w-16 bg-gray-700 rounded-full h-2 mr-2">
+                                                <div class="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full" style="width: 65%"></div>
+                                            </div>
+                                            <span class="text-sm">65</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 pr-2 text-right font-bold text-blue-400">10,230</td>
+                                </tr>
+                                <tr class="border-b border-gray-700 hover:bg-gray-700/50 transition cursor-pointer">
+                                    <td class="py-4 pl-2">
+                                        <div class="w-8 h-8 bg-gradient-to-r from-amber-600 to-amber-800 rounded-full flex items-center justify-center text-sm font-bold">3</div>
+                                    </td>
+                                    <td class="py-4">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 rounded-full bg-red-600 mr-3 flex items-center justify-center">
+                                                <i class="fas fa-fire text-white text-xs"></i>
+                                            </div>
+                                            <div>
+                                                <div class="font-medium">Choi Jong-In</div>
+                                                <div class="text-xs text-gray-400">S-Rank Mage</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4">
+                                        <span class="px-2 py-1 bg-red-900/50 text-red-300 rounded-full text-xs">Mage</span>
+                                    </td>
+                                    <td class="py-4">
+                                        <div class="flex items-center">
+                                            <div class="w-16 bg-gray-700 rounded-full h-2 mr-2">
+                                                <div class="bg-gradient-to-r from-red-500 to-orange-500 h-2 rounded-full" style="width: 58%"></div>
+                                            </div>
+                                            <span class="text-sm">58</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 pr-2 text-right font-bold text-red-400">9,120</td>
+                                </tr>
+                                <tr class="border-b border-gray-700 hover:bg-gray-700/50 transition cursor-pointer">
+                                    <td class="py-4 pl-2">
+                                        <div class="w-8 h-8 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full flex items-center justify-center text-sm font-bold">4</div>
+                                    </td>
+                                    <td class="py-4">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 rounded-full bg-green-600 mr-3 flex items-center justify-center">
+                                                <i class="fas fa-running text-white text-xs"></i>
+                                            </div>
+                                            <div>
+                                                <div class="font-medium">Yoo Jinho</div>
+                                                <div class="text-xs text-gray-400">A-Rank Assassin</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4">
+                                        <span class="px-2 py-1 bg-green-900/50 text-green-300 rounded-full text-xs">Assassin</span>
+                                    </td>
+                                    <td class="py-4">
+                                        <div class="flex items-center">
+                                            <div class="w-16 bg-gray-700 rounded-full h-2 mr-2">
+                                                <div class="bg-gradient-to-r from-green-500 to-teal-500 h-2 rounded-full" style="width: 42%"></div>
+                                            </div>
+                                            <span class="text-sm">42</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 pr-2 text-right font-bold text-green-400">6,540</td>
+                                </tr>
+                                <tr class="hover:bg-gray-700/50 transition cursor-pointer">
+                                    <td class="py-4 pl-2">
+                                        <div class="w-8 h-8 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full flex items-center justify-center text-sm font-bold">5</div>
+                                    </td>
+                                    <td class="py-4">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 rounded-full bg-indigo-600 mr-3 flex items-center justify-center">
+                                                <i class="fas fa-hat-wizard text-white text-xs"></i>
+                                            </div>
+                                            <div>
+                                                <div class="font-medium">Baek Yoonho</div>
+                                                <div class="text-xs text-gray-400">A-Rank Healer</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4">
+                                        <span class="px-2 py-1 bg-indigo-900/50 text-indigo-300 rounded-full text-xs">Healer</span>
+                                    </td>
+                                    <td class="py-4">
+                                        <div class="flex items-center">
+                                            <div class="w-16 bg-gray-700 rounded-full h-2 mr-2">
+                                                <div class="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full" style="width: 38%"></div>
+                                            </div>
+                                            <span class="text-sm">38</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 pr-2 text-right font-bold text-indigo-400">5,670</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Workout Modal -->
+    <div id="workoutModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md mx-4 border border-gray-700">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Start Workout</h3>
+                <button id="closeModal" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="mb-6">
+                <label class="block text-gray-400 mb-2">Select Exercise</label>
+                <select class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    <option>Running</option>
+                    <option>Weight Training</option>
+                    <option>Cycling</option>
+                    <option>Swimming</option>
+                    <option>Yoga</option>
+                    <option>HIIT</option>
+                </select>
+            </div>
+            
+            <div class="mb-6">
+                <label class="block text-gray-400 mb-2">Duration (minutes)</label>
+                <input type="number" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" value="30">
+            </div>
+            
+            <div class="mb-6">
+                <label class="block text-gray-400 mb-2">Estimated Calories</label>
+                <div class="text-2xl font-bold text-purple-400">350</div>
+            </div>
+            
+            <button class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-bold hover:opacity-90 transition">
+                <i class="fas fa-play mr-2"></i> Start Workout
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Simple modal functionality
+        const workoutButtons = document.querySelectorAll('.bg-gray-700 button');
+        const workoutModal = document.getElementById('workoutModal');
+        const closeModal = document.getElementById('closeModal');
+        
+        workoutButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                workoutModal.classList.remove('hidden');
+            });
+        });
+        
+        closeModal.addEventListener('click', () => {
+            workoutModal.classList.add('hidden');
+        });
+        
+        // Close modal when clicking outside
+        workoutModal.addEventListener('click', (e) => {
+            if (e.target === workoutModal) {
+                workoutModal.classList.add('hidden');
+            }
+        });
+        
+        // Job class unlock simulation
+        const jobs = document.querySelectorAll('.bg-gray-700.rounded-lg.p-3');
+        jobs.forEach(job => {
+            job.addEventListener('click', () => {
+                if (!job.classList.contains('opacity-50')) {
+                    jobs.forEach(j => j.classList.remove('border', 'border-purple-500'));
+                    job.classList.add('border', 'border-purple-500');
+                    
+                    // Update current job class display
+                    const jobTitle = job.querySelector('.font-bold').textContent;
+                    const jobDesc = job.querySelector('.text-xs').textContent;
+                    const jobIcon = job.querySelector('.job-icon').cloneNode(true);
+                    
+                    const currentJob = document.querySelector('.bg-gray-700.rounded-lg.p-4');
+                    currentJob.innerHTML = `
+                        <div class="flex items-center">
+                            ${jobIcon.outerHTML}
+                            <div>
+                                <div class="font-bold">${jobTitle}</div>
+                                <div class="text-sm text-gray-400">${jobDesc}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
